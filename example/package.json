@@ -1,0 +1,33 @@
+{
+  "name": "example",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "run:ios": "react-native run-ios",
+    "run:android": "react-native run-android",
+    "adb:android:menu": "adb shell input keyevent 82",
+    "adb:android:reload": "adb shell input text \"RR\"",
+    "haul": "haul",
+    "haul:android": "yarn haul start -- --platform android"
+  },
+  "dependencies": {
+    "react": "16.3.1",
+    "react-native": "0.55.4"
+  },
+  "devDependencies": {
+    "babel-jest": "22.4.3",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-react-native": "4.0.0",
+    "flow-bin": "^0.72.0",
+    "flow-remove-types": "^1.2.3",
+    "haul": "^1.0.0-rc.0",
+    "jest": "22.4.3",
+    "react-test-renderer": "16.3.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

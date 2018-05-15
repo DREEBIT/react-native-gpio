@@ -1,5 +1,5 @@
 
-package com.dreebit;
+package com.dreebit.gpio;
 
 import java.util.Arrays;
 import java.util.Collections;
