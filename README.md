@@ -27,11 +27,39 @@
       compile project(':react-native-gpio')
   	```
 
+## Android Things
+
+Please use this link to view Android Things (e.g. Raspberry Pi) I/O documentation: [raspberrypi-io](https://developer.android.com/things/hardware/raspberrypi-io).
+Use the name for the GPIO pin for subscription. 
 
 ## Usage
 ```javascript
 import RNGpio from 'react-native-gpio';
 
-// TODO: What to do with the module?
-RNGpio;
+...
+
+componentDidMount(){
+
+    // register for gpio pins
+    RNGpio.subscribeGpio("BCM14");
+
+    // register for events
+    DeviceEventEmitter.addListener('RNGPIO', (event: GpioEvent) => {
+      
+      /**
+       * Sample event: {
+       *  "BCM2": true
+       * }
+       */
+      this.setState({
+        pins: {
+          ...this.state.pins,
+          ...event
+        }
+      })
+    });
+}
+
+...
+
 ```

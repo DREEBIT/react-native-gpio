@@ -71,7 +71,6 @@ export default class App extends Component<Props> {
     // register for events
     DeviceEventEmitter.addListener('RNGPIO', (event: GpioEvent) => {
 
-      console.log(event);
       /**
        * Sample event: {
        *  "BCM2": true
