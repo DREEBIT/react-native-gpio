@@ -31,7 +31,6 @@ repositories {
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:0.20.1'
+    compile 'com.facebook.react:react-native:+'
     compileOnly 'com.google.android.things:androidthings:1.0'
 }
-  
