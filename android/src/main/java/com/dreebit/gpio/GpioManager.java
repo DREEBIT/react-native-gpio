@@ -16,6 +16,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import com.dreebit.gpio.Throttle;
 
 import static android.content.ContentValues.TAG;
 
@@ -26,6 +27,8 @@ public class GpioManager {
 
     // GPIO Pin Name
     private ArrayList<Gpio> mGpios = new ArrayList<>();
+    // Throttle
+    private Throttle mThrottle = new Throttle(500);
 
     //private constructor.
     private GpioManager(){}
@@ -127,11 +130,16 @@ public class GpioManager {
         this.reactContext = reactContext;
     }
 
-    private void sendEvent(ReactContext reactContext,
-            String eventName,
-            @Nullable WritableMap params) {
-        reactContext
-                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(eventName, params);
+    private void sendEvent(final ReactContext reactContext,
+                           final String eventName,
+                           final @Nullable WritableMap params) {
+        mThrottle.attempt(new Runnable() {
+            @Override
+            public void run() {
+                reactContext
+                        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                        .emit(eventName, params);
+            }
+        });
     }
 }
