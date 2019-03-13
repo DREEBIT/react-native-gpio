@@ -109,7 +109,7 @@ public class GpioManager {
                 WritableMap params = Arguments.createMap();
                 String gpioName = gpio.getName();
                 boolean gpioValue = gpio.getValue();
-                String throttleKey = gpioName + gpioValue ? "_1" : "_0";
+                String throttleKey = gpioName + (gpioValue ? "_1" : "_0");
                 if (!mGpioThrottles.containsKey(throttleKey)) {
                     mGpioThrottles.put(throttleKey, new Throttle(500));
                 }
