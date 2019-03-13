@@ -1,6 +1,6 @@
 {
   "name": "react-native-gpio",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "./src/index.js",
   "scripts": {
@@ -21,10 +21,6 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*"
-  },
-  "dependencies": {
-    "react": "^16.3.2",
-    "react-native": "^0.55.4"
   },
   "devDependencies": {
     "babel-preset-flow": "^6.23.0",
