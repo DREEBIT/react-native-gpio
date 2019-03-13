@@ -11,11 +11,14 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.dreebit.gpio.Throttle;
 
 import static android.content.ContentValues.TAG;
@@ -27,8 +30,8 @@ public class GpioManager {
 
     // GPIO Pin Name
     private ArrayList<Gpio> mGpios = new ArrayList<>();
-    // Throttle
-    private Throttle mThrottle = new Throttle(500);
+    // Throttle map
+    private HashMap<String, Throttle> mGpioThrottles = new HashMap<String, Throttle>();
 
     //private constructor.
     private GpioManager(){}
@@ -104,8 +107,15 @@ public class GpioManager {
             // Read the active low pin state
             try {
                 WritableMap params = Arguments.createMap();
-                params.putBoolean(gpio.getName(),gpio.getValue());
-                GpioManager.this.sendEvent(GpioManager.this.reactContext, "RNGPIO", params);
+                String gpioName = gpio.getName();
+                boolean gpioValue = gpio.getValue();
+                String throttleKey = gpioName + gpioValue ? "_1" : "_0";
+                if (!mGpioThrottles.containsKey(throttleKey)) {
+                    mGpioThrottles.put(throttleKey, new Throttle(500));
+                }
+                params.putBoolean(gpioName, gpioValue);
+                GpioManager.this.sendEvent(mGpioThrottles.get(throttleKey),
+                        GpioManager.this.reactContext, "RNGPIO", params);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -130,10 +140,11 @@ public class GpioManager {
         this.reactContext = reactContext;
     }
 
-    private void sendEvent(final ReactContext reactContext,
+    private void sendEvent(@NonNull Throttle throttle,
+                           final ReactContext reactContext,
                            final String eventName,
                            final @Nullable WritableMap params) {
-        mThrottle.attempt(new Runnable() {
+        throttle.attempt(new Runnable() {
             @Override
             public void run() {
                 reactContext
